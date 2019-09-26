@@ -8,16 +8,10 @@ workflows:
     jobs:
       - docker/publish:
           after_build:
-            - run:
-              # command: echo "Did this after the build"
-              # name: Do this after the build
-
             - checkout
+            -run:
+              command: python3
           after_checkout:
-            - run:
-              command: echo "Did this after checkout"
-              name: Do this after checkout
-
             - restore_cache:
                 keys:
                   - v1-dependencies-{{ checksum "requirements.txt" }}
