@@ -9,8 +9,8 @@ workflows:
       - docker/publish:
           after_build:
             - run:
-              command: echo "Did this after the build"
-              name: Do this after the build
+              # command: echo "Did this after the build"
+              # name: Do this after the build
 
             - checkout
           after_checkout:
@@ -45,9 +45,5 @@ workflows:
             - store_artifacts:
                 path: test-reports
                 destination: test-reports
-          before_build:
-            - run:
-                command: echo "Starting the build of docker image"
-                name: Do this before build
           deploy: false
           image: circleci/python:3.7.0
