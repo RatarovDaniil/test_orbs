@@ -1,39 +1,55 @@
 version: 2.1
-jobs:
-  build:
-    docker:
-      - image: circleci/python:3.7.0
 
-    working_directory: ~/repo
+orbs:
+  docker: circleci/docker@0.5.13
 
-    steps:
-      - checkout
+workflows:
+  build-docker-image-only:
+    jobs:
+      - docker/publish:
+          after_build:
+            - run:
+                command: 
+                  working_directory: ~/repo
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+                  steps:
+                    - checkout
+          after_checkout:
+            - run:
+                command:
+                  # Download and cache dependencies
+                  - restore_cache:
+                      keys:
+                        - v1-dependencies-{{ checksum "requirements.txt" }}
+                        # fallback to using the latest cache if no exact match is found
+                        - v1-dependencies-
 
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
+                  - run:
+                      name: install dependencies
+                      command: |
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        pip install -r requirements.txt
 
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+                  - save_cache:
+                      paths:
+                        - ./venv
+                      key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            python python_tests.py test
+                  - run:
+                      name: run tests
+                      command: |
+                        . venv/bin/activate
+                        python python_tests.py test
 
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+                  - store_artifacts:
+                      path: test-reports
+                      destination: test-reports
+                        name: Do this after the build
+                name: Do this after checkout
+          before_build:
+            - run:
+                command: echo "Starting the build of docker image"
+                name: Do this before the build
+          deploy: false
+          image: circleci/python:3.7.0
