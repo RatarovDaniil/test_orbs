@@ -9,8 +9,6 @@ workflows:
       - docker/publish:
           after_build:
             - checkout
-            -run:
-              command: python3
           after_checkout:
             - restore_cache:
                 keys:
