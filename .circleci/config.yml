@@ -8,10 +8,16 @@ workflows:
     jobs:
       - docker/publish:
           after_build:
-            name: After Build
+            -run:
+              command: echo "Did this after the build"
+              name: Do this after the build
+
             - checkout
           after_checkout:
-            name: After Checkout
+            -run:
+              command: echo "Did this after checkout"
+              name: Do this after checkout
+
             - restore_cache:
                 keys:
                   - v1-dependencies-{{ checksum "requirements.txt" }}
@@ -40,8 +46,8 @@ workflows:
                 path: test-reports
                 destination: test-reports
           before_build:
-            name: Before Build
             - run:
                 command: echo "Starting the build of docker image"
+                name: Do this before build
           deploy: false
           image: circleci/python:3.7.0
