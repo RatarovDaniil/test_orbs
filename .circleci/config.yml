@@ -38,4 +38,4 @@ workflows:
                 path: test-reports
                 destination: test-reports
           deploy: false
-          image: circleci/python:3.6.0
+          image: circleci/python:3.6.2
