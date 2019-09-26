@@ -8,13 +8,13 @@ workflows:
     jobs:
       - docker/publish:
           after_build:
-            -run:
+            - run:
               command: echo "Did this after the build"
               name: Do this after the build
 
             - checkout
           after_checkout:
-            -run:
+            - run:
               command: echo "Did this after checkout"
               name: Do this after checkout
 
