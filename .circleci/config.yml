@@ -8,8 +8,10 @@ workflows:
     jobs:
       - docker/publish:
           after_build:
+            name: After Build
             - checkout
           after_checkout:
+            name: After Checkout
             - restore_cache:
                 keys:
                   - v1-dependencies-{{ checksum "requirements.txt" }}
@@ -38,6 +40,7 @@ workflows:
                 path: test-reports
                 destination: test-reports
           before_build:
+            name: Before Build
             - run:
                 command: echo "Starting the build of docker image"
           deploy: false
