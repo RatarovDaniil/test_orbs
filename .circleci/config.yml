@@ -9,7 +9,7 @@ workflows:
       - docker/publish:
           after_build:
             - checkout
-            
+
             - restore_cache:
                 keys:
                   - v1-dependencies-{{ checksum "requirements.txt" }}
@@ -38,4 +38,4 @@ workflows:
                 path: test-reports
                 destination: test-reports
           deploy: false
-          image: circleci/python:3.7.0
+          image: circleci/python:3.6.0
