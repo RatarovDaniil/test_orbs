@@ -8,9 +8,6 @@ workflows:
     jobs:
       - docker/publish:
           after_build:
-            - run: 
-              working_directory: ~/repo
-
             - checkout
           after_checkout:
             - restore_cache:
