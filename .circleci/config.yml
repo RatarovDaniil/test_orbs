@@ -45,7 +45,6 @@ workflows:
                   - store_artifacts:
                       path: test-reports
                       destination: test-reports
-                        name: Do this after the build
           before_build:
             - run:
                 command: echo "Starting the build of docker image"
