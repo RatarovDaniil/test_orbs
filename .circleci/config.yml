@@ -46,10 +46,8 @@ workflows:
                       path: test-reports
                       destination: test-reports
                         name: Do this after the build
-                name: Do this after checkout
           before_build:
             - run:
                 command: echo "Starting the build of docker image"
-                name: Do this before the build
           deploy: false
           image: circleci/python:3.7.0
